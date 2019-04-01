@@ -1079,9 +1079,10 @@ class ToolingApi():
         result = self.get(sync_request_url + "/" + request_id)
         state = result["State"]
 
+        sleep_seconds = self.settings["metadata_polling_frequency"]
         while state == "Queued":
-            time.sleep(0.5)
             Printer.get('log').write("ContainerAsyncRequest is in Queued, waiting...")
+            time.sleep(sleep_seconds)
             result = self.get(sync_request_url + "/" + request_id)
             state = result["State"]
         
